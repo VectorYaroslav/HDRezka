@@ -2,17 +2,18 @@
     position: relative;
     overflow: visible;
 }
-    .b-content__inline_item .btn{
+    .b-content__inline_item > .btn_url{
         position: absolute;
         top: -50px;
-        width: 174px;
+        width: 100%;
         line-height: 50px;
         text-align: center;
         background-color: black;
         color: white;
-        display: none;
         cursor: pointer;
+        z-index: 999;
+        display: none;
     }
-    .b-content__inline_item:hover .btn{
+    .b-content__inline_item:hover > .btn_url{
         display: block;
     }
