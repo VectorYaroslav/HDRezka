@@ -1,74 +1,79 @@
 
-
-
-
 array_urls = []
-cookie_name = "array_urls";
+cookie_name = "hdrezka_array_urls";
+urls = JSON.parse(getCookie(cookie_name))
+if (!urls) urls = []
 
-const is_cookie = getCookie(cookie_name)
 
-if(is_cookie){
-  for (let i = 0; i < is_cookie.length; i++) {
-    array_urls.push(is_cookie[i]);
+
+/********** Check if Cookies exists **********/
+if (urls.length > 0) {
+  for (let i = 0; i < urls.length; i++) {
+    document.querySelector('[data-url="' + urls[i] + '"]').classList.add("selected");
   }
-  console.log("URLS: "+getCookie(cookie_name))
-}else{
-  console.log("No Cookies")
+  console.log(new Date() + "====================" + " Cookies URLS " + "====================")
+  console.log(urls)
+  console.log(new Date() + "====================" + " Cookies URLS " + "====================(END)")
+} else {
+  console.log(new Date() + "====================" + " Cookies URLS " + "====================")
+  console.log("No urls")
+  console.log(new Date() + "====================" + " Cookies URLS " + "====================(END)")
 }
+/********** Check if Cookies exists(END) **********/
 
- 
-Array.prototype.forEach.call(document.querySelectorAll(".b-content__inline_item"), function(el){
 
+
+Array.prototype.forEach.call(document.querySelectorAll(".b-content__inline_item"), function (el) {
+
+
+  /********** Set TEXT to button(END) **********/
   let btn = document.createElement("div")
   btn.classList.add("btn_url")
-  btn.innerText = "Add URL"
-  btn.onclick = function(e){
-    e.stopPropagation()
-    e.preventDefault()
+  if (hasClass(el, "selected")) {
+    btn.innerText = "Remove URL"                    // Set text 'Remove URL' to button
+  } else {
+    btn.innerText = "Add URL"                       // Set text 'Add URL' to button
+  }
+  /********** Set TEXT to button(END) **********/
+
+
+  /********** Add CLICK event to button **********/
+  btn.onclick = function (e) {
+    stopAllEvents()                                 // Stop all events by click on element
 
     const data_url = el.getAttribute("data-url");
-    if(btn.innerText.includes("Add URL")){
-      array_urls.push(data_url)
-      btn.innerText = "Remove URL"
-    }else{
-      const index = array_urls.indexOf(data_url);
-      if(index > -1) array_urls.splice(index, 1);
-      btn.innerText = "Add URL"
+    /********** Add URL **********/
+    if (btn.innerText.includes("Add URL")) {
+      btn.innerText = "Remove URL"                  // Set text 'Remove URL' to button
+      el.classList.add("selected")                  // Add class 'selected' to button
+      urls.push(data_url)                           // Add new url to array
+      console.log(new Date() + "====================" + " New URL '" + data_url + "' added " + "====================")
+    } 
+    /********** Add URL(END) **********/
+    /********** Remove URL(END) **********/
+    else {
+      btn.innerText = "Add URL"                     // Set text 'Add URL' to button
+      el.classList.remove("selected")               // Remove class 'selected' from button
+      const index = urls.indexOf(data_url);
+      if (index > -1) urls.splice(index, 1);        // Remove url from array
+      console.log(new Date() + "====================" + " URL '" + data_url + "' deleted " + "====================")
     }
+    /********** Remove URL(END) **********/
 
-    if(getCookie(cookie_name)) 
-      deleteCookie(cookie_name)
+    if (urls.length > 0)
+      deleteCookie(cookie_name)                     // Delete old Cookies
 
-    setCookie(cookie_name, JSON.stringify(array_urls))
-    
-    console.log("New URLS: "+getCookie(cookie_name))
+    setCookie(cookie_name, JSON.stringify(urls))    // Set new Cookies
+
+    console.log(new Date() + "====================" + " New URLS array " + "====================")
+    if (urls.length > 0) {
+      console.log(urls)
+    } else {
+      console.log("No URLS")
+    }
+    console.log(new Date() + "====================" + " New URLS array " + "====================(END)")
   }
+  /********** Add CLICK event to button(END) **********/
+
   el.prepend(btn)
 });
-
-function setCookie(name, value) {
-  document.cookie = name +'='+ value +'; Path=/;';
-}
-function deleteCookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-function getCookie(name) {
-  var dc = document.cookie;
-  var prefix = name + "=";
-  var begin = dc.indexOf("; " + prefix);
-  if (begin == -1) {
-      begin = dc.indexOf(prefix);
-      if (begin != 0) return null;
-  }
-  else
-  {
-      begin += 2;
-      var end = document.cookie.indexOf(";", begin);
-      if (end == -1) {
-      end = dc.length;
-      }
-  }
-
-  return decodeURI(dc.substring(begin + prefix.length, end));
-}

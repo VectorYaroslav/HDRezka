@@ -2,6 +2,17 @@
     position: relative;
     overflow: visible;
 }
+.b-content__inline_item.selected{
+    background-color:green;
+    text-align: center;
+    color: white;
+    padding: 0 0 10px;
+    border-radius: 5px;
+}
+    .b-content__inline_item.selected a{
+        color: white;
+        text-decoration: none!important;
+    }
     .b-content__inline_item > .btn_url{
         position: absolute;
         top: -50px;
