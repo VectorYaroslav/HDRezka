@@ -3,12 +3,18 @@
 /******************************************************************************************************/
 
 document.addEventListener('DOMContentLoaded', function () {
-    let scriptFile = document.createElement("script");
-    scriptFile.src = "http://localhost/HDRezka/js/main.js"
-    document.body.append(scriptFile);
-
-    let cssFile = document.createElement("link");
-    cssFile.href = "http://localhost/HDRezka/css/main.css"
-    cssFile.rel = "stylesheet"
-    document.body.append(cssFile);
+	var site = "HDRezka";
+	
+	let scriptFileGeneralMain = document.createElement("script");
+	scriptFileGeneralMain.src = "http://localhost/General scripts/main.js"
+	document.body.prepend(scriptFileGeneralMain)
+	
+	let scriptFile = document.createElement("script");
+	scriptFile.src = "http://localhost/"+site+"/js/main.js"
+	document.body.prepend(scriptFile)
+	
+	let cssFile = document.createElement("link");
+	cssFile.href = "http://localhost/"+site+"/css/main.css"
+	cssFile.rel = "stylesheet"
+	document.body.prepend(cssFile)
 });
